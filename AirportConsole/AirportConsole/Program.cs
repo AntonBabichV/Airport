@@ -10,7 +10,7 @@ namespace AirportConsole
     class Program
     {
         //Spent time 10.07 3 hours
-        //11.07 20:00 
+        //11.07 20:00 21:00
         static void Main(string[] args)
         {
             // Console.ForegroundColor = ConsoleColor.White;
@@ -91,7 +91,7 @@ namespace AirportConsole
     }
     enum FlightStatus
     {
-        Unknown,
+        Unknown = 1,
         Checkin,
         GateClosed,
         Arrived,
@@ -100,13 +100,22 @@ namespace AirportConsole
 
 
     }
+    enum FlightFieldsNumber
+    {
+        Number = 1,
+        City,
+        Airline,
+        Terminal,
+        DateTimeOfArrival,
+        Status
+    }
     class Flight
     {
-        public DateTime DateTimeOfArrival { get; set; }
         public int Number { get; set; }
+        public int Terminal { get; set; }
         public string City { get; set; }
         public string Airline { get; set; }
-        public int Terminal { get; set; }
+        public DateTime DateTimeOfArrival { get; set; }
         public FlightStatus Status { get; set; }
 
         public override string ToString()
@@ -123,6 +132,7 @@ namespace AirportConsole
         {
 
         }
+        // TODO: think about where such methods should be
         public bool AddFlightFromConsole()
         {
             // Console.ForegroundColor = ConsoleColor.Green;
@@ -157,7 +167,11 @@ namespace AirportConsole
                 Flight addFlight = new Flight();
 
                 // Fill all other details
-                if (FillDataFromConsole(1, addFlight) && FillDataFromConsole(2, addFlight) && FillDataFromConsole(3, addFlight) && FillDataFromConsole(4, addFlight) && FillDataFromConsole(4, addFlight))
+                if (FillDataFromConsole(FlightFieldsNumber.Airline, addFlight) &&
+                    FillDataFromConsole(FlightFieldsNumber.City, addFlight) &&
+                    FillDataFromConsole(FlightFieldsNumber.Status, addFlight) &&
+                    FillDataFromConsole(FlightFieldsNumber.Terminal, addFlight) &&
+                    FillDataFromConsole(FlightFieldsNumber.DateTimeOfArrival, addFlight))
                 {
                     listOfFlights.Add(addFlight);
                     // TODO: Implement printing of added flyght
@@ -178,33 +192,49 @@ namespace AirportConsole
 
             return false;
         }
-        private bool FillDataFromConsole(int indexOfPropperty, Flight updatedFlight)
+        private bool FillDataFromConsole(FlightFieldsNumber indexOfPropperty, Flight updatedFlight)
         {
             string nameOfValue = "";
             switch (indexOfPropperty)
             {
-                case (1)://City
+                case (FlightFieldsNumber.City):
                     nameOfValue = "City";
 
                     break;
-                case (3)://Terminal
+                case (FlightFieldsNumber.Status):
+                    nameOfValue = "Status";
+                    break;
+                case (FlightFieldsNumber.Airline):
+                    nameOfValue = "Airline";
+                    break;
+                case (FlightFieldsNumber.Terminal):
                     nameOfValue = "Terminal";
+
+                    break;
+                case (FlightFieldsNumber.DateTimeOfArrival):
+                    nameOfValue = "Date Time of Arrival";
 
                     break;
             }
             Console.WriteLine($"Please enter value of:{nameOfValue}");
-            string enteredValue = Console.ReadLine();
+            string enteredValue = ""; 
+            int returnIntValue = 0;
             switch (indexOfPropperty)
             {
-                case (1)://City
+                case (FlightFieldsNumber.City):
+                    enteredValue = Console.ReadLine();
                     updatedFlight.City = enteredValue;
-
                     break;
-                case (3)://Terminal
-                    int returnValue = 0;
-                    if (ReadIntValueFromConsole(ref returnValue))
+
+                case (FlightFieldsNumber.Airline):
+                    enteredValue = Console.ReadLine();
+                    updatedFlight.Airline = enteredValue;
+                    break;
+
+                case (FlightFieldsNumber.Terminal):
+                    if (ReadIntValueFromConsole(ref returnIntValue))
                     {
-                        updatedFlight.Terminal = returnValue;
+                        updatedFlight.Terminal = returnIntValue;
                     }
                     else
                     {
@@ -212,10 +242,80 @@ namespace AirportConsole
                     }
 
                     break;
+                case (FlightFieldsNumber.Status):
+                    FlightStatus returnStatusValue  = FlightStatus.Unknown;
+                    if (ReadStatusValueFromConsole(ref returnStatusValue))
+                    {
+                        updatedFlight.Status = returnStatusValue;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    break;
+                case (FlightFieldsNumber.DateTimeOfArrival):
+                    DateTime returnDateTime = DateTime.Now;
+                    if (ReadDateTimeValueFromConsole(ref returnDateTime))
+                    {
+                        updatedFlight.DateTimeOfArrival = returnDateTime;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    break;
             }
 
 
 
+            return true;
+        }
+        private bool ReadDateTimeValueFromConsole(ref DateTime enteredValue, int exitKey = (int)MainMenuVariants.Exit)
+        {
+            Console.WriteLine("Entering date will be ready later");
+            // Ask about year
+            // Ask about Month
+            // Ask about day
+            // Hour
+            // minutes
+            return true;
+        }
+        private bool ReadStatusValueFromConsole(ref FlightStatus enteredValue, int exitKey = (int)MainMenuVariants.Exit)
+        {
+            // TODO set different collors
+            Console.WriteLine("PLease enter flight status: ");
+            Console.WriteLine($"PLease press for {FlightStatus.Arrived} status: {(int)FlightStatus.Arrived}");
+            Console.WriteLine($"PLease press for {FlightStatus.Canceled} status: {(int)FlightStatus.Canceled}");
+            Console.WriteLine($"PLease press for {FlightStatus.Checkin} status: {(int)FlightStatus.Checkin}");
+            Console.WriteLine($"PLease press for {FlightStatus.DepartedAt} status: {(int)FlightStatus.DepartedAt}");
+            Console.WriteLine($"PLease press for {FlightStatus.GateClosed} status: {(int)FlightStatus.GateClosed}");
+            Console.WriteLine($"PLease press for {FlightStatus.Unknown} status: {(int)FlightStatus.Unknown}");
+            bool customerEnteredCorrectStatus = false;
+            bool customerWantExit = false;
+            int enteredIntValue = 0;
+            do
+            {
+                if (ReadIntValueFromConsole(ref enteredIntValue))
+                {
+                    
+                    if ((enteredIntValue >= (int)FlightStatus.Checkin) && (enteredIntValue <= (int)FlightStatus.Canceled))
+                    {
+                        enteredValue = (FlightStatus)enteredIntValue;
+                        customerEnteredCorrectStatus = true;
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Your value is out of scope, please enter correct number from the list");
+                    }
+                }
+                else
+                {
+                    customerWantExit = true;
+                }
+
+            } while (!customerEnteredCorrectStatus && !customerWantExit);
             return false;
         }
 
@@ -232,7 +332,10 @@ namespace AirportConsole
                     if (result == exitKey)
                         customerWantExit = true;
                     if (result != exitKey)
+                    {
+                        enteredValue = result;
                         return true;
+                    }
                 }
                 catch
                 {   // Writhing warning message:
