@@ -37,6 +37,8 @@ namespace AirportConsole
                         case MainMenuVariants.DeleteFlight:
                             break;
                         case MainMenuVariants.PrintAllFlights:
+                            ConsoleManagment.PrintFlights(flyightsManager.AllFlights(),FlightFieldsNumber.Number);
+
                             break;
                     }
                 }

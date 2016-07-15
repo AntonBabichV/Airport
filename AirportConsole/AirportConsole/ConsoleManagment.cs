@@ -77,7 +77,7 @@ namespace AirportConsole
                 if (ReadIntValueFromConsole(ref enteredIntValue))
                 {
 
-                    if ((enteredIntValue >= (int)FlightStatus.Checkin) && (enteredIntValue <= (int)FlightStatus.Canceled))
+                    if ((enteredIntValue >= (int)FlightStatus.Unknown) && (enteredIntValue <= (int)FlightStatus.Canceled))
                     {
                         enteredValue = (FlightStatus)enteredIntValue;
                         customerEnteredCorrectStatus = true;
@@ -134,6 +134,36 @@ namespace AirportConsole
             // minutes
             return true;
         }
+        public static bool PrintFlights(List<Flight> flights, FlightFieldsNumber sortField)
+        {
+            // right now sorted by Date
+            switch (sortField)
+            {
+                case (FlightFieldsNumber.DateTimeOfArrival):
+                    flights.Sort(delegate (Flight a, Flight b)
+                    {
+                        if (a.DateTimeOfArrival == b.DateTimeOfArrival) return 0;
+                        else if (a.DateTimeOfArrival < b.DateTimeOfArrival) return -1;
+                        else if (a.DateTimeOfArrival > b.DateTimeOfArrival) return 1;
+                        else return 0;
+                    });
+                    break;
+                default:
+                    flights.Sort(delegate (Flight a, Flight b)
+                    {
+                        if (a.Number == b.Number) return 0;
+                        else if (a.DateTimeOfArrival < b.DateTimeOfArrival) return -1;
+                        else  return 1;
+                       
+                    });
+                    break;
+            };
 
+            foreach (Flight flight in flights)
+            {
+                Console.WriteLine(flight);
+            }
+            return false;
+        }
     }
 }

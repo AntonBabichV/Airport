@@ -27,28 +27,35 @@ namespace AirportConsole
         Status
     }
 
-    public class Flight
-    {
-        public int Number { get; set; }
-        public int Terminal { get; set; }
-        public string City { get; set; }
-        public string Airline { get; set; }
-        public DateTime DateTimeOfArrival { get; set; }
-        public FlightStatus Status { get; set; }
+ 
 
-        public override string ToString()
-        {
-            return $"Flight number: {Number}, {DateTimeOfArrival} ";// not finished print method should use Console managre
-        }
 
-    }
+    // Passangers will be added
     public class FlyightsManager
     {
 
-        List<Flight> listOfFlights = new List<Flight>();
+        List<Flight> _listOfFlights = new List<Flight>();
         public void InitiolizeDefaultStructure()
         {
-
+   
+            _listOfFlights.Add(new Flight()
+            {
+                Airline = "May",
+                City = "Kharkiv",
+                DateTimeOfArrival = DateTime.Now,
+                Number = 1,
+                Status = FlightStatus.Arrived,
+                Terminal = 7
+            });
+            _listOfFlights.Add(new Flight()
+            {
+                Airline = "May",
+                City = "Kiev",
+                DateTimeOfArrival = DateTime.Now,
+                Number = 2,
+                Status = FlightStatus.Checkin,
+                Terminal = 8
+            });
         }
         // TODO: think about where such methods should be
         public bool AddFlightFromConsole()
@@ -91,7 +98,7 @@ namespace AirportConsole
                     FillFlighPropertyFromConsole(FlightFieldsNumber.Terminal, addFlight) &&
                     FillFlighPropertyFromConsole(FlightFieldsNumber.DateTimeOfArrival, addFlight))
                 {
-                    listOfFlights.Add(addFlight);
+                    _listOfFlights.Add(addFlight);
                     // TODO: Implement printing of added flyght
                     return true;
                 }
@@ -188,12 +195,16 @@ namespace AirportConsole
         public Flight GetFlyightByNumber(int number)
         {
 
-            for (int i = 0; i < listOfFlights.Count; i++)
+            for (int i = 0; i < _listOfFlights.Count; i++)
             {
-                if (listOfFlights[i].Number == number)
-                    return listOfFlights[i];
+                if (_listOfFlights[i].Number == number)
+                    return _listOfFlights[i];
             }
             return null;
+        }
+        public List<Flight> AllFlights()
+        {
+            return _listOfFlights;
         }
     }
 }
