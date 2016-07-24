@@ -4,51 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-
+using AirportConsole.Menu;
+using AirportConsole.FlightManagement;
 namespace AirportConsole
 {
     class Program
     {
-        //Spent time 10.07 3 hours
-        //11.07 20:00 21:00
-        //13.07 21:00 22:00
-        //17.07 16:30 17:00
+
         static void Main(string[] args)
         {
-            // Console.ForegroundColor = ConsoleColor.White;
-            // Console.WriteLine("Welcome to airport flight manager!");
-            FlyightsManager flyightsManager = new FlyightsManager();
-            flyightsManager.InitiolizeDefaultStructure();
-            bool customerWantExit = false;
-            while (!customerWantExit)
-            {
-                {
-                    MainMenuVariants numberMenu = ConsoleManagment.ShowMainMenuHeader(); 
-                    switch (numberMenu)
-                    {
-                        case MainMenuVariants.WrongVariant:
-                            continue;
-                            // break;
-                        case MainMenuVariants.Exit:
-                            customerWantExit = ConsoleManagment.ShowConfirmationAboutExit();
-                            break;
-                        case MainMenuVariants.AddFlight:
-                            flyightsManager.AddFlightFromConsole();
-                            break;
-                        case MainMenuVariants.DeleteFlight:
-                            Console.WriteLine("This functionality isn't available");
-                            break;
-                        case MainMenuVariants.PrintAllFlights:
-                            ConsoleManagment.PrintFlights(flyightsManager.AllFlights(),FlightFieldsNumber.Number);
+            IDialogManager dialogManager = new ConsoleManagment();
+            IMenuManager menuManager = new ConsoleMenuManager() { DialogManager = dialogManager };
+            IFlightFactory flightFactory = new FlightFactory();
+            FlightManagare flightManagement = new FlightManagare(menuManager, flightFactory, dialogManager) { };
+ 
+            flightManagement.StartFlightsManagement();
 
-                            break;
-                        case MainMenuVariants.SearchByCity:
-                           /// ConsoleManagment.PrintFlights(flyightsManager.GetFlightsByCity(ConsoleManagment.ReadStatusValueFromConsole), FlightFieldsNumber.Number);
-
-                            break;
-                    }
-                }
-            }
         }
     }
 

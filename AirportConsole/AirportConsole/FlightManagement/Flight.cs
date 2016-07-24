@@ -4,9 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportConsole
+namespace AirportConsole.FlightManagement
 {
-    public class Flight // Move to Separate file
+    public enum FlightStatus
+    {
+        Unknown = 1,
+        Checkin = 2,
+        GateClosed = 3,
+        Arrived = 4,
+        DepartedAt = 5,
+        Canceled = 6
+    }
+    public class Flight 
     {
         public int Number { get; set; }
         public int Terminal { get; set; }

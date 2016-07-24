@@ -44,8 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleManagment.cs" />
-    <Compile Include="Flight.cs" />
-    <Compile Include="FlightManager.cs" />
+    <Compile Include="FlightManagement.cs" />
+    <Compile Include="FlightManagement\Flight.cs" />
+    <Compile Include="FlightManagement\FlightContainer.cs" />
+    <Compile Include="FlightManagement\FlightFactory.cs" />
+    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\MenuManagment.cs" />
+    <Compile Include="Menu\MenuOperations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
