@@ -206,5 +206,23 @@ namespace AirportConsole
         {
             return _listOfFlights;
         }
+        public List<Flight> GetFlightsByCity(string city)
+        {
+            List<Flight> resultList = new List<Flight>();
+            for (int i = 0; i < _listOfFlights.Count; i++)
+            {
+                if ( _listOfFlights[i].City.ToUpper() == city.ToUpper())
+                {
+                    resultList.Add(_listOfFlights[i]);
+                }
+            }
+            if (resultList.Count > 0)
+            {
+                return resultList;
+            }else
+            {
+                return null;
+            }
+        }
     }
 }

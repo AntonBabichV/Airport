@@ -96,7 +96,16 @@ namespace AirportConsole
             } while (!customerEnteredCorrectStatus && !customerWantExit);
             return false;
         }
-        public static bool ReadIntValueFromConsole(ref int enteredValue, int exitKey = (int)MainMenuVariants.Exit)
+
+        /// <summary>
+        /// Asks customer enter int value, until customer exit correct value or prefer exit 
+        /// </summary>
+        /// <param name="enteredValue"></param>
+        /// <param name="minValue"></param>
+        /// <param name="maxValue"></param>
+        /// <param name="exitKey"></param>
+        /// <returns></returns>
+        public static bool ReadIntValueFromConsole(ref int enteredValue, int minValue = 0, int maxValue = 100,  int exitKey = (int)MainMenuVariants.Exit)
         {
             bool customerEnteredCorrectNumber = false;
             bool customerWantExit = false;
@@ -110,7 +119,15 @@ namespace AirportConsole
                         customerWantExit = true;
                     if (result != exitKey)
                     {
-                        enteredValue = result;
+                        if (result >= minValue && result <= maxValue)
+                        {
+                            enteredValue = result;
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                        
                         return true;
                     }
                 }
@@ -126,12 +143,38 @@ namespace AirportConsole
         }
         public static bool ReadDateTimeValueFromConsole(ref DateTime enteredValue, int exitKey = (int)MainMenuVariants.Exit)
         {
-            Console.WriteLine("Entering date will be ready later");
+            
             // Ask about year
+            Console.WriteLine("PLease enter year");
+            int year = DateTime.Now.Year;
+            int enteredIntValue = 0;
+            ConsoleManagment.ReadIntValueFromConsole(ref enteredIntValue, year , 2035);
+            year = enteredIntValue;
+
             // Ask about Month
+            Console.WriteLine("PLease enter month");
+            int month = DateTime.Now.Month;
+            ConsoleManagment.ReadIntValueFromConsole(ref enteredIntValue, 1, 12);
+            month = enteredIntValue;
+
             // Ask about day
+            Console.WriteLine("PLease enter day");
+            int day = DateTime.Now.Day;
+            ConsoleManagment.ReadIntValueFromConsole(ref enteredIntValue, 1, DateTime.DaysInMonth(year, month));
+            day = enteredIntValue;
             // Hour
+            Console.WriteLine("PLease enter hour");
+            int hour = DateTime.Now.Hour;
+            ConsoleManagment.ReadIntValueFromConsole(ref enteredIntValue, 1, 24);
+            hour = enteredIntValue;
             // minutes
+            Console.WriteLine("PLease enter minutes");
+            int minute = DateTime.Now.Month;
+            ConsoleManagment.ReadIntValueFromConsole(ref enteredIntValue, 1, 60);
+            minute = enteredIntValue;
+
+            enteredValue = new DateTime(year, month, day, hour, minute,1) ;
+
             return true;
         }
         public static bool PrintFlights(List<Flight> flights, FlightFieldsNumber sortField)

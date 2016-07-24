@@ -12,6 +12,7 @@ namespace AirportConsole
         //Spent time 10.07 3 hours
         //11.07 20:00 21:00
         //13.07 21:00 22:00
+        //17.07 16:30 17:00
         static void Main(string[] args)
         {
             // Console.ForegroundColor = ConsoleColor.White;
@@ -35,9 +36,14 @@ namespace AirportConsole
                             flyightsManager.AddFlightFromConsole();
                             break;
                         case MainMenuVariants.DeleteFlight:
+                            Console.WriteLine("This functionality isn't available");
                             break;
                         case MainMenuVariants.PrintAllFlights:
                             ConsoleManagment.PrintFlights(flyightsManager.AllFlights(),FlightFieldsNumber.Number);
+
+                            break;
+                        case MainMenuVariants.SearchByCity:
+                           /// ConsoleManagment.PrintFlights(flyightsManager.GetFlightsByCity(ConsoleManagment.ReadStatusValueFromConsole), FlightFieldsNumber.Number);
 
                             break;
                     }
