@@ -48,6 +48,7 @@
     <Compile Include="FlightManagement\Flight.cs" />
     <Compile Include="FlightManagement\FlightContainer.cs" />
     <Compile Include="FlightManagement\FlightFactory.cs" />
+    <Compile Include="FlightManagement\SearchFlightInfo.cs" />
     <Compile Include="Menu\Menu.cs" />
     <Compile Include="Menu\MenuManagment.cs" />
     <Compile Include="Menu\MenuOperations.cs" />

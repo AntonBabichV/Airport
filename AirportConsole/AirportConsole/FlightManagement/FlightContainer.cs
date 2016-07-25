@@ -12,6 +12,10 @@ namespace AirportConsole.FlightManagement
         Flight Add(Flight flight);
         bool Delete(Flight flight);
         IList<Flight> GetAll();
+
+        IList<Flight> GetByQuery(SearchFlightInfo query);
+        
+
         Flight GetFlyightByNumber(int number);
       //  IList<Flight> GetByProperty(FlightFieldsNumber fieldIdentificator, object searchValue);
         IList<Flight> List
@@ -53,15 +57,47 @@ namespace AirportConsole.FlightManagement
             _list.Add(flight);
             return flight;
         }
+        public IList<Flight> GetByQuery(SearchFlightInfo query)
+        {
+            IList<Flight> resultList = new List<Flight>();
 
+            foreach (Flight flight in _list)
+            {
+                bool queryCorrect = true;
+                bool querySet = query.AirlineSet || query.CitySet || query.NumberSet || query.TerminalSet || query.StatusSet || query.DateTimeOfArrivalSet;
+                if (query.AirlineSet && (query.FlightData.Airline.ToUpper() != flight.Airline.ToUpper()))
+                    queryCorrect = false;
+                if (query.CitySet && (query.FlightData.City.ToUpper() != flight.City.ToUpper()))
+                    queryCorrect = false;
+                if (query.NumberSet && (query.FlightData.Number != flight.Number))
+                    queryCorrect = false;
+                if (query.TerminalSet && (query.FlightData.Terminal != flight.Terminal))
+                    queryCorrect = false;
+                if (query.StatusSet && (query.FlightData.Status != flight.Status))
+                    queryCorrect = false;
+                if (query.DateTimeOfArrivalSet &&
+                     (
+                       (query.FlightData.DateTimeOfArrival.Year != flight.DateTimeOfArrival.Year) ||
+                       (query.FlightData.DateTimeOfArrival.Month != flight.DateTimeOfArrival.Month) ||
+                       (query.FlightData.DateTimeOfArrival.Day != flight.DateTimeOfArrival.Day) ||
+                       (query.FlightData.DateTimeOfArrival.Hour != flight.DateTimeOfArrival.Hour) ||
+                       (Math.Abs(query.FlightData.DateTimeOfArrival.Minute - flight.DateTimeOfArrival.Minute) > 59)
+                      )
+                    )
+                    queryCorrect = false;
+                if (queryCorrect&& querySet)
+                    resultList.Add(flight);
+            }
+            return resultList;
+        }
         bool IFlyightsContainer.Delete(Flight flight)
         {
-            throw new NotImplementedException();
+            return _list.Remove(flight);
         }
 
         IList<Flight> IFlyightsContainer.GetAll()
         {
-            throw new NotImplementedException();
+            return _list;
         }
 
         #region OLD

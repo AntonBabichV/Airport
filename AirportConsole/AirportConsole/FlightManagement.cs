@@ -18,6 +18,7 @@ namespace AirportConsole
         private IFlyightsContainer _flyightsContainer;
         private IFlightFactory _flightFactory;
         private IDialogManager _dialogManager;
+        private SearchFlightInfo _searchFlightInfo;
         private void InitiolizeDemoStructure()
         {
             _flightFactory.InitiolizeDemoStructure(_flyightsContainer.List);
@@ -31,9 +32,16 @@ namespace AirportConsole
                 Type = MenuType.Operation,
                 Operation = AddFlight
             };
-
             MenuManager.MainMenu.Add(mainMenu);
-
+            mainMenu = new MenuItem()
+            {
+                Name = "Delete Flight",
+                Key = "D",
+                Type = MenuType.Operation,
+                Operation = DeleteFlight
+            };
+            MenuManager.MainMenu.Add(mainMenu);
+            
             mainMenu = new MenuItem()
             {
                 Name = "Print All Flights",
@@ -41,8 +49,25 @@ namespace AirportConsole
                 Type = MenuType.Operation,
                 Operation = PrintAllFlights
             };
-
             MenuManager.MainMenu.Add(mainMenu);
+
+            mainMenu = new MenuItem()
+            {
+                Name = "Search Flights by City",
+                Key = "C",
+                Type = MenuType.Operation,
+                Operation = PrintFlightsByCity
+            };
+            MenuManager.MainMenu.Add(mainMenu);
+            mainMenu = new MenuItem()
+            {
+                Name = "Search Flights today at",
+                Key = "T",
+                Type = MenuType.Operation,
+                Operation = PrintFlightsByTodayTimeArrival
+            };
+            MenuManager.MainMenu.Add(mainMenu);
+
             mainMenu = new MenuItem()
             {
                 Name = "Exit",
@@ -50,7 +75,6 @@ namespace AirportConsole
                 Type = MenuType.Exit,
                 Operation = null
             };
-
             MenuManager.MainMenu.Add(mainMenu);
         }
         public FlightManagare(IMenuManager menuManager, IFlightFactory flightFactory, IDialogManager dialogManager)
@@ -59,7 +83,7 @@ namespace AirportConsole
             _flightFactory = flightFactory;
             _dialogManager = dialogManager;
             _flyightsContainer = new FlyightsContainer();
-
+            _searchFlightInfo = new SearchFlightInfo();
             InitiolizeDemoStructure();
             InitiolizeHeaderMenu();
         }
@@ -122,22 +146,61 @@ namespace AirportConsole
             {
                 _dialogManager.ShowTextInfo(flight.ToString());
             }
-            Console.WriteLine("Not implemented PrintAllFlights");
+            
         }
         private void EditFlight()
         {
-            // ask about number or more info to be able find flight
-            Console.WriteLine("Not implemented EditFlight");
+  
+                // ask about number or more info to be able find flight
+                _dialogManager.ShowTextInfo("Not implemented EditFlight");
         }
         private void DeleteFlight()
         {
             // ask about number or more info to be able find flight
-            Console.WriteLine("Not implemented DeleteFlight");
+            int number;
+            if (_dialogManager.ReceiveIntValue("Flight Number", out number))
+            {
+                Flight delflightForDelete = _flyightsContainer.GetFlyightByNumber(number);
+                if (delflightForDelete!=null)
+                {
+                    if (_flyightsContainer.Delete(delflightForDelete))
+                        _dialogManager.ShowTextInfo($"Flight:\n{delflightForDelete}\n was deleted");
+                    else
+                        _dialogManager.ShowTextInfo($"Flight with number:{number} doesn't exist");
+
+                }
+            }
         }
-        private void PrintFlightByCity()
+        private void PrintFlightsByCity()
         {
             // Print list after search by City 
-            Console.WriteLine("Not implemented PrintFlightByCity");
+            _searchFlightInfo.Clear();
+            string city;
+
+            if (_dialogManager.ReceiveText("City", out city))
+            {
+                _searchFlightInfo.SetCity(city);
+                foreach (Flight flight in _flyightsContainer.GetByQuery(_searchFlightInfo))
+                {
+                    _dialogManager.ShowTextInfo(flight.ToString());
+                }
+            }
+        }
+
+        private void PrintFlightsByTodayTimeArrival()
+        {
+            // Print list after search by City 
+            _searchFlightInfo.Clear();
+            DateTime timeOfArrival;
+
+            if (_dialogManager.ReceiveTodayTime("Time arrivale (today)", out timeOfArrival))
+            {
+                _searchFlightInfo.SetDateTimeOfArrival(timeOfArrival);
+                foreach (Flight flight in _flyightsContainer.GetByQuery(_searchFlightInfo))
+                {
+                    _dialogManager.ShowTextInfo(flight.ToString());
+                }
+            }
         }
 
         public void StartFlightsManagement()
