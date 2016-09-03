@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AirportConsole.Menu;
+using AirLine.Menu;
 using System.Globalization;
 
-namespace AirportConsole
+namespace AirLine
 {
 
     public struct EnumType
@@ -18,7 +18,7 @@ namespace AirportConsole
    public interface IDialogManager
     {
 
-        IMenuItem ShowMenuDialog(IList<IMenuItem> menuList);
+        IMenuItem ShowMenuDialog(IEnumerable<IMenuItem> menuList);
         void ShowTextInfo(string info);
 
         bool ReceiveIntValue(string nameOfValue, ref int enteredValue, bool allowedToMiss = false, int minValue = 0, int maxValue = 100);
@@ -34,18 +34,20 @@ namespace AirportConsole
     /// </summary>
     public  class ConsoleManagment : IDialogManager
     {
-
+#warning All consts should be saved in config plus initiation some class should depends on config
         const char Separator = '#';
         const int MaxWidht = 230;
         private int _sizeOfDataBox = 50;
 
         void PrintSepareteLine(int length)
         {
+    //        Console.BackgroundColor = _colorMenuLines; 
             for (int i = 0; i < length; i++)
             {
                 Console.Write(Separator);
             }
             Console.WriteLine();
+      //      Console.BackgroundColor = _defaultColor;
         }
         public ConsoleManagment()
         {
@@ -59,15 +61,33 @@ namespace AirportConsole
             // Print bottom
             PrintSepareteLine(_sizeOfDataBox);
         }
-      
+
+        const ConsoleColor _colorMenuLines = ConsoleColor.DarkGray;
+        const ConsoleColor _colorMenuText = ConsoleColor.Cyan;
+        const ConsoleColor _defaultColor = ConsoleColor.Black;
         /// <summary>
         /// Show menu list in one line
         /// </summary>
         /// <param name="menuList"></param>
-        public IMenuItem ShowMenuDialog(IList<IMenuItem> menuList)
+        public IMenuItem ShowMenuDialog(IEnumerable<IMenuItem> menuList)
         {
+            //Console.SetWindowSize(_sizeOfDataBox, Console.WindowHeight);
+            Console.SetWindowSize(Console.LargestWindowWidth - 50,Console.LargestWindowHeight - 15);
 
-            
+
+            //for (int i = 0; i < 16; i++)
+            //{
+            //    Console.BackgroundColor = (ConsoleColor)i;
+            //    Console.Write(i);
+            //    for (int j = 0; j < 100; j++)
+            //    {
+            //        Console.Write(Separator);
+            //    }
+            //    Console.WriteLine();
+            //}
+            //Console.BackgroundColor = ConsoleColor.Black;
+     
+            Console.WriteLine();
             StringBuilder menuBody = new StringBuilder();
             foreach (IMenuItem menu in menuList)
             {
@@ -78,13 +98,14 @@ namespace AirportConsole
             else
                 _sizeOfDataBox = MaxWidht;
 
-            Console.SetWindowSize(_sizeOfDataBox, Console.WindowHeight);
-            
-
             // print header
             PrintSepareteLine(_sizeOfDataBox);
             // Print Body
+            //Console.BackgroundColor = _colorMenuText;
+            //Console.ForegroundColor = ConsoleColor.Black;
             Console.WriteLine(menuBody.ToString());
+            //Console.ForegroundColor = ConsoleColor.Gray;
+            //Console.BackgroundColor = _defaultColor;
             // Print bottom
             PrintSepareteLine(_sizeOfDataBox);
             // Ask until customer won't select correct menu
@@ -96,7 +117,7 @@ namespace AirportConsole
                 string key = Console.ReadLine();
                 foreach (IMenuItem menu in menuList)
                 {
-                    if (menu.Key == key)
+                    if (menu.Key.ToUpper() == key.ToUpper())
                     {
                         selectedMenu = menu;
                         break;

@@ -26,7 +26,7 @@ namespace AirportConsole.FlightManagement
 
         public override string ToString()
         {
-            return $" Flight number: {Number},\n Airline: {Airline},\n City {City} ,\n Terminal: {Terminal},\n Date of arrival: {DateTimeOfArrival.Date}\n Time: {DateTimeOfArrival.TimeOfDay},\n Status: {Status}";// not finished print method should use Console managre
+            return $" Flight number: {Number},\n Airline: {Airline},\n City {City} ,\n Terminal: {Terminal},\n Date of arrival: {String.Format("{0:d}", DateTimeOfArrival.Date)},\n Time: {String.Format("{0:T}", DateTimeOfArrival)},\n Status: {Status}";// not finished print method should use Console managre
         }
 
     }
