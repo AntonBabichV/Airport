@@ -6,33 +6,34 @@ using System.Threading.Tasks;
 
 namespace AirLine.Menu
 {
-    public enum MenuType
-    {
-        Exit,
-        LevelUp,
-        MenuLevel,
-        SimpleOperation,// Like delete
-        OperationWithSubMenus, // Like Add passagers which means management tickets
-
-    }
-
-    public interface IMenuItem
-    {
-        string Name { get; set; }
-        string Key { get; set; }
-        MenuOperation Operation { get; set; }
-        ComplicatedMenuOperation ComplicatedOperation { get; set; }
-        MenuType Type { get; set; }
-        IList<IMenuItem> SubMenus { get; set; }
-
-    }
-
     public class MenuItem : IMenuItem
     {
         public string Name { get; set; }
         public string Key { get; set; }
-        public MenuOperation Operation { get; set; }
-        public ComplicatedMenuOperation ComplicatedOperation { get; set; }
+        private MenuOperation _operation;
+        public MenuOperation Operation
+        {
+            get
+            {
+                return _operation;
+            }
+            set
+            {
+                if (_complicatedOperation != null)
+                    throw new Exception("Second operation can't be assigned");
+                _operation = value;
+            }
+        }
+        public ComplicatedMenuOperation _complicatedOperation;
+        public ComplicatedMenuOperation ComplicatedOperation {
+            get {
+                return _complicatedOperation;
+            } set {
+                if (_operation != null)
+                    throw new Exception("Second operation can't be assigned");
+                _complicatedOperation = value;
+            }
+        }
         public MenuType Type { get; set; }
 
         public IList<IMenuItem> SubMenus { get; set; }

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace AirLine.Menu
 {
-    public delegate void MenuOperation();
-    public delegate bool ComplicatedMenuOperation( OperationContentEventArgs currentContent);
+    public class OperationContentEventArgs : EventArgs
+    {
+        public object ProcessedEntity { get; set; }
+    }
 }

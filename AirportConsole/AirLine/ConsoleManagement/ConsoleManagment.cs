@@ -5,34 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AirLine.Menu;
 using System.Globalization;
-
-namespace AirLine
+using AirLine.Dialogs;
+namespace AirLine.ConsoleManagement
 {
-
-    public struct EnumType
-    {
-        public string Name;
-        public string KeyValue;
-        public int Value;
-    }
-   public interface IDialogManager
-    {
-
-        IMenuItem ShowMenuDialog(IEnumerable<IMenuItem> menuList);
-        void ShowTextInfo(string info);
-
-        bool ReceiveIntValue(string nameOfValue, ref int enteredValue, bool allowedToMiss = false, int minValue = 0, int maxValue = 100);
-        bool ReceiveStatus(string name, EnumType[] statuses , ref int selectedValue, bool allowedToMiss = false);
-        bool ReceiveText(string name, ref string enteredText, bool allowedToMiss = false);
-        bool ReceiveDateTime(string name, ref DateTime enteredDate, bool allowedToMiss = false);
-        bool ReceiveTodayTime(string name, ref DateTime enteredTime, bool allowedToMiss = false);
-    }
-
-
     /// <summary>
     /// Responsible for standard dialogs via console, in future will use different colors
     /// </summary>
-    public  class ConsoleManagment : IDialogManager
+    public  class ConsoleManager : IDialogManager
     {
 #warning All consts should be saved in config plus initiation some class should depends on config
         const char Separator = '#';
@@ -49,17 +28,23 @@ namespace AirLine
             Console.WriteLine();
       //      Console.BackgroundColor = _defaultColor;
         }
-        public ConsoleManagment()
+        public ConsoleManager()
         {
             
         }
-        public void ShowTextInfo(string info)
+        public void ShowTextInfo(string info, bool askContinue = false)
         {
             PrintSepareteLine(_sizeOfDataBox);
             // Print Body
             Console.WriteLine(info);
             // Print bottom
             PrintSepareteLine(_sizeOfDataBox);
+            if (askContinue)
+            {
+                Console.WriteLine("Please press any key to continue...");
+                Console.ReadKey();
+            }
+                
         }
 
         const ConsoleColor _colorMenuLines = ConsoleColor.DarkGray;
@@ -152,18 +137,41 @@ namespace AirLine
             do
             {
                 string enteredStrValue = Console.ReadLine();
-                if (allowedToMiss && (enteredStrValue == _missKey)) return false;
+                if (allowedToMiss && (enteredStrValue.ToUpper() == _missKey.ToUpper())) return false;
                 if (DateTime.TryParse(enteredStrValue,out enteredDate))
                     return true;
                 else
                 {
-                    if (enteredStrValue == _defaultExit)
+                    if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
                         customerWontExit = true;
                     else
                         Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
                 }
 
             } while (!customerWontExit );
+
+            return false;
+
+        }
+        public bool ReceiveDate(string name, ref DateTime enteredDate, bool allowedToMiss = false)
+        {
+            Console.WriteLine($"Please enter {name} in this format:{ String.Format("{0:d}", DateTime.Now)}" + AllowMiss(allowedToMiss));
+            bool customerWontExit = false;
+            do
+            {
+                string enteredStrValue = Console.ReadLine();
+                if (allowedToMiss && (enteredStrValue.ToUpper() == _missKey.ToUpper())) return false;
+                if (DateTime.TryParse(enteredStrValue, out enteredDate))
+                    return true;
+                else
+                {
+                    if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
+                        customerWontExit = true;
+                    else
+                        Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
+                }
+
+            } while (!customerWontExit);
 
             return false;
 
@@ -177,7 +185,7 @@ namespace AirLine
             do
             {
                 string enteredStrValue = Console.ReadLine();
-                if (allowedToMiss && (enteredStrValue == _missKey)) return false;
+                if (allowedToMiss && (enteredStrValue.ToUpper() == _missKey.ToUpper())) return false;
                 CultureInfo provider = CultureInfo.InvariantCulture;
                 try
                 {
@@ -186,12 +194,12 @@ namespace AirLine
                 }
                 catch (FormatException)
                 {
-                    if (enteredStrValue == _defaultExit)
+                    if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
                     {
                         
                         return false;
                     }
-
+#warning the same message everywhere
                     Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
                 }
             } while (!customerWontExit);
@@ -211,22 +219,22 @@ namespace AirLine
             do
             {
                 string enteredStrValue = Console.ReadLine();
-                if (allowedToMiss && (enteredStrValue == _missKey)) return false;
+                if (allowedToMiss && (enteredStrValue.ToUpper() == _missKey.ToUpper())) return false;
                 foreach (EnumType status in statuses)
                 {
-                    if (enteredStrValue == status.KeyValue)
+                    if (enteredStrValue.ToUpper() == status.KeyValue.ToUpper())
                     {
                         selectedValue = status.Value;
                         return true;
                     }
                 }
 
-                if (enteredStrValue == _defaultExit)
+                if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
                     customerWontExit = true;
                 else
                     Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
 
-                if (allowedToMiss && (enteredStrValue == _missKey))
+                if (allowedToMiss && (enteredStrValue.ToUpper() == _missKey.ToUpper()))
                 {
                     selectedValue = 0;
                     return true;
@@ -235,7 +243,28 @@ namespace AirLine
             selectedValue = -1;
             return false;
         }
+        public bool ReceiveDoubleValue(string nameOfValue, ref double enteredValue, bool allowedToMiss = false)
+        {
+            Console.WriteLine($"Please enter {nameOfValue}" + AllowMiss(allowedToMiss));
+            bool customerWontExit = false;
+            do
+            {
+                string enteredStrValue = Console.ReadLine();
+                if (allowedToMiss && (enteredStrValue.ToUpper() == _missKey.ToUpper())) return false;
+                if ((double.TryParse(enteredStrValue, out enteredValue)) )
+                    return true;
+                else
+                {
+                    if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
+                        customerWontExit = true;
+                    else
+                        Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
+                }
 
+            } while (!customerWontExit);
+
+            return false;
+        }
         public bool ReceiveIntValue(string nameOfValue, ref int enteredValue, bool allowedToMiss = false, int minValue = 0, int maxValue = 100)
         {
             Console.WriteLine($"Please enter {nameOfValue}" + AllowMiss(allowedToMiss));
@@ -243,12 +272,12 @@ namespace AirLine
             do
             {
                 string enteredStrValue = Console.ReadLine();
-                if (allowedToMiss && (enteredStrValue == _missKey)) return false;
+                if (allowedToMiss && (enteredStrValue.ToUpper() == _missKey.ToUpper())) return false;
                 if ((int.TryParse(enteredStrValue, out enteredValue)) && (enteredValue >= minValue && enteredValue <= maxValue))
                     return true;
                 else
                 {
-                    if (enteredStrValue == _defaultExit)
+                    if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
                         customerWontExit = true;
                     else
                         Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");

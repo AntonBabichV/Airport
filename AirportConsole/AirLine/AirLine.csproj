@@ -45,19 +45,32 @@
   <ItemGroup>
     <Compile Include="AirlineEntityManager.cs" />
     <Compile Include="AirLineManager.cs" />
-    <Compile Include="ConsoleManagment.cs" />
+    <Compile Include="ConsoleManagement\ConsoleManagment.cs" />
+    <Compile Include="Dialogs\IDialogManager.cs" />
+    <Compile Include="FlightsManagement\Flight.cs" />
+    <Compile Include="FlightsManagement\FlightContainer.cs" />
+    <Compile Include="FlightsManagement\FlightFactory.cs" />
+    <Compile Include="FlightsManagement\FlightStatus.cs" />
+    <Compile Include="FlightsManagement\FlightTicket.cs" />
+    <Compile Include="FlightsManagement\IFlightFactory.cs" />
+    <Compile Include="FlightsManagement\IFlyightsContainer.cs" />
+    <Compile Include="FlightsManagement\SearchFlightInfo.cs" />
+    <Compile Include="Menu\IMenuItem.cs" />
+    <Compile Include="Menu\IMenuItemFactory.cs" />
     <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\MenuItemFactory.cs" />
     <Compile Include="Menu\MenuManagment.cs" />
     <Compile Include="Menu\MenuOperations.cs" />
+    <Compile Include="Menu\MenuType.cs" />
+    <Compile Include="Menu\OperationContentEventArgs.cs" />
+    <Compile Include="PassengersManagement\Passenger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

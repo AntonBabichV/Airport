@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AirLine.Dialogs;
 namespace AirLine.Menu
 {
 
  
 
-
+    
     public interface IMenuManager
     {
         IMenuItem Selection( IList<IMenuItem> menuLevel);
@@ -17,6 +17,7 @@ namespace AirLine.Menu
         IList<IMenuItem> MainMenu { get;  }
 
         IMenuItem TopMenu { get; set; }
+        IMenuItemFactory MenuItemFcatory { get; set; }
         //bool DoMenu(IMenuItem);
 
     }
@@ -25,7 +26,7 @@ namespace AirLine.Menu
 
         public IDialogManager DialogManager { get; set; }
         public IMenuItem TopMenu { get; set; }
-
+        public IMenuItemFactory MenuItemFcatory { get; set; }
         public ConsoleMenuManager()
         {
 

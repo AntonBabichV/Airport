@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace AirLine
 {
-    public interface IAirlineEntity 
+#warning  Not used now...
+    public interface IAirlineEntity
     {
 
     }
+
     public interface ISearchCriteria<T> where T: IAirlineEntity
     {
 
@@ -29,12 +31,5 @@ namespace AirLine
         IEnumerable<T> Search(ISearchCriteria<T> searchCriteria);
     }
 
-    public class OperationContentEventArgs : EventArgs
-    {
-        public IAirlineEntity ProcessedEntity { get; set; }
-    }
-    public class Passenger: IAirlineEntity
-    {
-        public string FirstName { get; set; }
-    }
+
 }

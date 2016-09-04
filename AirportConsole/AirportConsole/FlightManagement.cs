@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using AirportConsole.Menu;
 using AirportConsole.FlightManagement;
+
 namespace AirportConsole
 {
 
     /// <summary>
+    /// 
     /// Works with Menu, container, dialog, operation?
     /// </summary>
     class FlightManager
