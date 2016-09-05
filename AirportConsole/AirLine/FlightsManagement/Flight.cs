@@ -15,7 +15,7 @@ namespace AirLine.FlightsManagement
         public string Airline { get; set; }
         public DateTime DateTimeOfArrival { get; set; }
         public FlightStatus Status { get; set; }
-        public IList<Passenger> Passengers { get; private set; }
+        public IList<Passenger> Passengers { get;  set; }
 
         public Flight()
         {

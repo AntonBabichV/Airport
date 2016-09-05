@@ -13,24 +13,27 @@ namespace AirLine.ConsoleManagement
     /// </summary>
     public  class ConsoleManager : IDialogManager
     {
-#warning All consts should be saved in config plus initiation some class should depends on config
-        const char Separator = '#';
-        const int MaxWidht = 230;
+        private char _separator = '#';
+        private int _maxWidht = Console.LargestWindowWidth - 30;
+        private int _maxHeight = Console.LargestWindowHeight - 15;
         private int _sizeOfDataBox = 50;
-
+        public void ClearScreen()
+        {
+            Console.Clear();
+        }
         void PrintSepareteLine(int length)
         {
     //        Console.BackgroundColor = _colorMenuLines; 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < _maxWidht; i++)
             {
-                Console.Write(Separator);
+                Console.Write(_separator);
             }
-            Console.WriteLine();
+            //Console.WriteLine();
       //      Console.BackgroundColor = _defaultColor;
         }
         public ConsoleManager()
         {
-            
+            Console.SetWindowSize(_maxWidht, _maxHeight);
         }
         public void ShowTextInfo(string info, bool askContinue = false)
         {
@@ -57,7 +60,7 @@ namespace AirLine.ConsoleManagement
         public IMenuItem ShowMenuDialog(IEnumerable<IMenuItem> menuList)
         {
             //Console.SetWindowSize(_sizeOfDataBox, Console.WindowHeight);
-            Console.SetWindowSize(Console.LargestWindowWidth - 50,Console.LargestWindowHeight - 15);
+            
 
 
             //for (int i = 0; i < 16; i++)
@@ -72,16 +75,16 @@ namespace AirLine.ConsoleManagement
             //}
             //Console.BackgroundColor = ConsoleColor.Black;
      
-            Console.WriteLine();
+            //Console.WriteLine();
             StringBuilder menuBody = new StringBuilder();
             foreach (IMenuItem menu in menuList)
             {
                 menuBody.Append($" {menu.Name} - '{menu.Key}';");
             }
-            if (menuBody.Length <= MaxWidht)
-                _sizeOfDataBox = menuBody.Length;
-            else
-                _sizeOfDataBox = MaxWidht;
+            //if (menuBody.Length <= MaxWidht)
+            //    _sizeOfDataBox = menuBody.Length;
+            //else
+            //    _sizeOfDataBox = MaxWidht;
 
             // print header
             PrintSepareteLine(_sizeOfDataBox);

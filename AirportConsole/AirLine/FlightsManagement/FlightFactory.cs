@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AirLine.PassengersManagement;
 namespace AirLine.FlightsManagement
 {
 
@@ -19,7 +19,19 @@ namespace AirLine.FlightsManagement
                 DateTimeOfArrival = DateTime.Now,
                 Number = 1,
                 Status = FlightStatus.Arrived,
-                Terminal = 7
+                Terminal = 7,
+                Passengers = new List<Passenger>() { new Passenger() {
+                    Passport = "1",
+                    Birthday = DateTime.Now,
+                    FirstName = "Anton",
+                    LastName ="Babich",
+                    Nationality = "Ukranian",
+                    Sex = SexType.male,
+                    Ticket = new FlightTicket() { Class = TypeClass.Business,Price=200}
+                }
+                }
+
+                
             });
             startList.Add(new Flight()
             {

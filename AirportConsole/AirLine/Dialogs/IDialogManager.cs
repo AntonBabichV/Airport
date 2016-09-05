@@ -15,6 +15,7 @@ namespace AirLine.Dialogs
     public interface IDialogManager
     {
         IMenuItem ShowMenuDialog(IEnumerable<IMenuItem> menuList);
+        void ClearScreen();
         void ShowTextInfo(string info,bool askContinue = false);
         bool ReceiveDoubleValue(string nameOfValue, ref double enteredValue, bool allowedToMiss = false);
         bool ReceiveIntValue(string nameOfValue, ref int enteredValue, bool allowedToMiss = false, int minValue = 0, int maxValue = 100);

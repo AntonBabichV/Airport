@@ -19,7 +19,7 @@ namespace AirLine.Menu
             }
             set
             {
-                if (_complicatedOperation != null)
+                if ((value!=null) &&(_complicatedOperation != null))
                     throw new Exception("Second operation can't be assigned");
                 _operation = value;
             }
@@ -29,7 +29,7 @@ namespace AirLine.Menu
             get {
                 return _complicatedOperation;
             } set {
-                if (_operation != null)
+                if ((value != null) && (_operation != null))
                     throw new Exception("Second operation can't be assigned");
                 _complicatedOperation = value;
             }

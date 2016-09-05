@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AirlineEntityManager.cs" />
     <Compile Include="AirLineManager.cs" />
     <Compile Include="ConsoleManagement\ConsoleManagment.cs" />
     <Compile Include="Dialogs\IDialogManager.cs" />
