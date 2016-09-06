@@ -20,11 +20,9 @@ namespace AirLine
             _menuManager = menuManager;
             _dialogManager = dialogManager;
             _flyightsContainer = flyightsContainer;
-#warning Do it by other way
-            IFlightFactory flightFactory = new FlightFactory();
-            flightFactory.InitiolizeDemoStructure(_flyightsContainer.List);
+         
         }
-        private IMenuItem MenuSession(IMenuItem menu, OperationContentEventArgs currentContent = null)
+ /*       private IMenuItem MenuSession(IMenuItem menu, OperationContentEventArgs currentContent = null)
         {
 #pragma warning disable 162
             IMenuItem subMenu;
@@ -87,24 +85,19 @@ namespace AirLine
             }
             return menu;
 #pragma warning restore 162
-        }
+        }*/
 
         public void StartArlineTerminalManagement()
         {
             InitiolizeHeaderMenu();
-            IMenuItem resultMenu = null;
-            do
-            {
-              resultMenu = MenuSession(_menuManager.TopMenu);
-            }while(resultMenu.Type != MenuType.Exit);
+            _menuManager.StartMenuSession(_dialogManager);
+
         }
 
         private void InitiolizeHeaderMenu()
         {
 
-/*
- * 
- * */
+
             IMenuItem topMenu = _menuManager.MenuItemFcatory.GetMenuItem(
                 name : "top menu",
                 key:"",
@@ -112,13 +105,13 @@ namespace AirLine
                 subMenus: new List<IMenuItem>()
                 {
                     _menuManager.MenuItemFcatory.GetMenuItem(
-                        name : "Manage Flights(and Passengers)",// edit add delete and than passangers
+                        name : "Manage flights(and passengers)",// edit add delete and than passangers
                         key:"M",
                         type: MenuType.MenuLevel,
                         subMenus: new List<IMenuItem>()
                         {
                              _menuManager.MenuItemFcatory.GetMenuItem(
-                                 name : "Add Flight",// after adding add passengers
+                                 name : "Add flight",// after adding add passengers
                                  key:"A",
                                  type: MenuType.OperationWithSubMenus,
                                  complicatedOperation : AddFlight,
@@ -126,7 +119,7 @@ namespace AirLine
                                  subMenus: new List<IMenuItem>()
                                  {
                                      _menuManager.MenuItemFcatory.GetMenuItem(
-                                          name : "Add Passenger",// after adding add passengers
+                                          name : "Add passenger",// after adding add passengers
                                           key:"A",
                                           type: MenuType.SimpleOperation,
                                           complicatedOperation: AddPassenger
@@ -139,7 +132,7 @@ namespace AirLine
                                  }),
                           
                            _menuManager.MenuItemFcatory.GetMenuItem(
-                                 name : "Edit Flight",
+                                 name : "Edit flight",
                                  key:"E",
                                  type: MenuType.OperationWithSubMenus,
                                  complicatedOperation:EditFlightNew,
@@ -147,31 +140,31 @@ namespace AirLine
                                  {
 
                                       _menuManager.MenuItemFcatory.GetMenuItem(
-                                          name : "Update Terminal",// after adding add passengers
+                                          name : "Update terminal",// after adding add passengers
                                           key:"T",
                                           type: MenuType.SimpleOperation,
                                           complicatedOperation: EditFlightTerminal
                                           ),
                                       _menuManager.MenuItemFcatory.GetMenuItem(
-                                          name : "Update City",// after adding add passengers
+                                          name : "Update city",// after adding add passengers
                                           key:"C",
                                           type: MenuType.SimpleOperation,
                                           complicatedOperation: EditFlightCity
                                           ),
                                       _menuManager.MenuItemFcatory.GetMenuItem(
-                                          name : "Update Airline",// after adding add passengers
+                                          name : "Update airline",// after adding add passengers
                                           key:"A",
                                           type: MenuType.SimpleOperation,
                                           complicatedOperation: EditFlightAirline
                                           ),
                                       _menuManager.MenuItemFcatory.GetMenuItem(
-                                          name : "Update Date Time Of Arrival",// after adding add passengers
+                                          name : "Update date time of arrival",// after adding add passengers
                                           key:"D",
                                           type: MenuType.SimpleOperation,
                                           complicatedOperation: EditFlightDateTimeOfArrival
                                           ),
                                       _menuManager.MenuItemFcatory.GetMenuItem(
-                                          name : "Update Status",// after adding add passengers
+                                          name : "Update status",// after adding add passengers
                                           key:"S",
                                           type: MenuType.SimpleOperation,
                                           complicatedOperation: EditFlightStatus
@@ -179,13 +172,13 @@ namespace AirLine
 
 
                                       _menuManager.MenuItemFcatory.GetMenuItem(
-                                          name : "Add Passenger",// after adding add passengers
+                                          name : "Add passenger",// after adding add passengers
                                           key:"AP",
                                           type: MenuType.SimpleOperation,
                                           complicatedOperation: AddPassenger
                                           ),
                                      _menuManager.MenuItemFcatory.GetMenuItem(
-                                          name : "Edit Passenger",// after adding add passengers
+                                          name : "Edit passenger",// after adding add passengers
                                           key:"EP",
                                           type: MenuType.OperationWithSubMenus,
                                           complicatedOperation: EditPassenger,
@@ -193,43 +186,43 @@ namespace AirLine
                                           subMenus: new List<IMenuItem>()
                                           {
                                               _menuManager.MenuItemFcatory.GetMenuItem(
-                                                  name : "Update First Name",// after adding add passengers
+                                                  name : "Update first name",// after adding add passengers
                                                   key:"FN",
                                                   type: MenuType.SimpleOperation,
                                                   complicatedOperation: EditPassengerFirstName
                                               ),
                                               _menuManager.MenuItemFcatory.GetMenuItem(
-                                                  name : "Update Last Name",// after adding add passengers
+                                                  name : "Update last name",// after adding add passengers
                                                   key:"LN",
                                                   type: MenuType.SimpleOperation,
                                                   complicatedOperation: EditPassengerLastName
                                               ),
                                               _menuManager.MenuItemFcatory.GetMenuItem(
-                                                  name : "Update Passport",// after adding add passengers
+                                                  name : "Update passport",// after adding add passengers
                                                   key:"P",
                                                   type: MenuType.SimpleOperation,
                                                   complicatedOperation: EditPassengerPassport
                                               ),
                                               _menuManager.MenuItemFcatory.GetMenuItem(
-                                                  name : "Update Nationality",// after adding add passengers
+                                                  name : "Update nationality",// after adding add passengers
                                                   key:"N",
                                                   type: MenuType.SimpleOperation,
                                                   complicatedOperation: EditPassengerNationality
                                               ),
                                               _menuManager.MenuItemFcatory.GetMenuItem(
-                                                  name : "Update Birthday",// after adding add passengers
+                                                  name : "Update birthday",// after adding add passengers
                                                   key:"BD",
                                                   type: MenuType.SimpleOperation,
                                                   complicatedOperation: EditPassengerBirthday
                                               ),
                                               _menuManager.MenuItemFcatory.GetMenuItem(
-                                                  name : "Update Sex",// after adding add passengers
+                                                  name : "Update sex",// after adding add passengers
                                                   key:"S",
                                                   type: MenuType.SimpleOperation,
                                                   complicatedOperation: EditPassengerSex
                                               ),
                                               _menuManager.MenuItemFcatory.GetMenuItem(
-                                                  name : "Update Ticket",// after adding add passengers
+                                                  name : "Update ticket",// after adding add passengers
                                                   key:"FN",
                                                   type: MenuType.SimpleOperation,
                                                   complicatedOperation: EditPassengerTicket
@@ -241,7 +234,7 @@ namespace AirLine
                                           }
                                           ),
                                      _menuManager.MenuItemFcatory.GetMenuItem(
-                                          name : "Delete Passenger",// after adding add passengers
+                                          name : "Delete passenger",// after adding add passengers
                                           key:"DP",
                                           type: MenuType.SimpleOperation,
                                           complicatedOperation: DeletePassenger)
@@ -264,24 +257,17 @@ namespace AirLine
                                  type: MenuType.LevelUp),
                         }),
                     _menuManager.MenuItemFcatory.GetMenuItem(
-                        name : "Print All flights",
+                        name : "Print all flights",
                         key:"PF",
-                        type: MenuType.SimpleOperation
-                         #warning finish print
+                        type: MenuType.SimpleOperation,
+                        operation : PrintAllFlights
                         ),
                    _menuManager.MenuItemFcatory.GetMenuItem(
                         name : "Print flight passengers", // enter flight number
                         key:"PP",
-                        type: MenuType.MenuLevel,
-                        subMenus: new List<IMenuItem>()
-                        {
-                            #warning finish print
-                                   _menuManager.MenuItemFcatory.GetMenuItem(
-                                         name : "Back",
-                                         key:"B",
-                                         type: MenuType.LevelUp
-                                         ),
-                        }),
+                        type: MenuType.SimpleOperation,
+                        operation: PrintPassengersByFlightNumber
+                        ),
                    
                    _menuManager.MenuItemFcatory.GetMenuItem(
                         name : "Search passengers",// use differnt criteria from all flights
@@ -289,7 +275,25 @@ namespace AirLine
                         type: MenuType.MenuLevel,
                         subMenus: new List<IMenuItem>()
                         {
-                             #warning finish print
+
+                                   _menuManager.MenuItemFcatory.GetMenuItem(
+                                         name : "Search by name",
+                                         key:"SN",
+                                         type: MenuType.SimpleOperation,
+                                         operation: SearchPassengersbyNames
+                                         ),
+                                   _menuManager.MenuItemFcatory.GetMenuItem(
+                                         name : "Search by flight number",
+                                         key:"SF",
+                                         type: MenuType.SimpleOperation,
+                                         operation: SearchPassengersbyFlightNumber
+                                         ),
+                                   _menuManager.MenuItemFcatory.GetMenuItem(
+                                         name : "Search by passport number",
+                                         key:"SP",
+                                         type: MenuType.SimpleOperation,
+                                         operation: SearchPassengersbyPassportNumber
+                                         ),
                                    _menuManager.MenuItemFcatory.GetMenuItem(
                                          name : "Back",
                                          key:"B",
@@ -297,18 +301,11 @@ namespace AirLine
                                          ),
                         }),
                    _menuManager.MenuItemFcatory.GetMenuItem(
-                        name : "Search Flights",// use differnt criteria
-                        key:"SF",
-                        type: MenuType.MenuLevel,
-                        subMenus: new List<IMenuItem>()
-                        {
-                             #warning finish search
-                                   _menuManager.MenuItemFcatory.GetMenuItem(
-                                         name : "Back",
-                                         key:"B",
-                                         type: MenuType.LevelUp
-                                         ),
-                        }),
+                        name : "Search flights by economy price",// use differnt criteria
+                        key:"SEP",
+                        type: MenuType.SimpleOperation,
+                       operation: SearchFlightsByEconomyPrice
+                       ),
                     _menuManager.MenuItemFcatory.GetMenuItem(
                         name : "Exit",// use differnt criteria
                         key:"X",
@@ -318,6 +315,98 @@ namespace AirLine
             _menuManager.TopMenu = topMenu;
 
        
+        }
+
+        private void SearchPassengersbyFlightNumber()
+        {
+            int number = 0;
+            if (_dialogManager.ReceiveIntValue("Flight Number", ref number))
+            {
+                Flight flight = _flyightsContainer.GetFlyightByNumber(number);
+                if (flight != null)
+                {
+                    foreach(var passenger in flight.Passengers)
+                    {
+                        _dialogManager.ShowTextInfo(passenger.ToString());
+                    }
+                }
+                else
+                    _dialogManager.ShowTextInfo($"Flight with number:{number} doesn't exist");
+            _dialogManager.ShowTextInfo("",true);
+            }
+        }
+
+        private void SearchFlightsByEconomyPrice()
+        {
+            double price = 0;
+            if (_dialogManager.ReceiveDoubleValue("Max price for econom tickets", ref price))
+            {
+                List<Flight> resultFlight = new List<Flight>();
+                foreach (var flight in _flyightsContainer.List)
+                {
+                    var passenger = (from p in flight.Passengers where p.Ticket.Class == TypeClass.Economy && p.Ticket.Price<= price select p).FirstOrDefault();
+                    if (passenger!= null)
+                        resultFlight.Add(flight);
+                }
+
+                foreach (var flight in resultFlight)
+                {
+                    _dialogManager.ShowTextInfo(flight.ToString());
+                }
+            }
+            else
+                _dialogManager.ShowTextInfo($"Flights with econom tickets with price less or equal then:{price} don't exist");
+            _dialogManager.ShowTextInfo("", true);
+        }
+
+        private void SearchPassengersbyPassportNumber()
+        {
+            string number = "";
+            if (_dialogManager.ReceiveText("Passport number", ref number))
+            {
+                List<Passenger> resultPassengers = new List<Passenger>();
+                foreach (var flight in _flyightsContainer.List)
+                {
+                    var passengers = (from p in flight.Passengers where p.Passport.Contains(number) select p).ToList();
+                    resultPassengers.AddRange(passengers);
+                }
+
+                foreach (var passenger in resultPassengers)
+                {
+                    _dialogManager.ShowTextInfo(passenger.ToString());
+                }
+            }
+            else
+                _dialogManager.ShowTextInfo($"Flight with number:{number} doesn't exist");
+            _dialogManager.ShowTextInfo("", true);
+
+        }
+
+        private void SearchPassengersbyNames()
+        {
+            string name = "";
+            if (_dialogManager.ReceiveText("Passenger first or last name", ref name))
+            {
+                List<Passenger> resultPassengers = new List<Passenger>();
+                foreach (var flight in _flyightsContainer.List)
+                {
+                    var passengers = (from p in flight.Passengers where p.FirstName.ToUpper().Contains(name.ToUpper())|| p.LastName.ToUpper().Contains(name.ToUpper()) select p).ToList();
+                    resultPassengers.AddRange(passengers);
+                }
+
+                foreach (var passenger in resultPassengers)
+                {
+                    _dialogManager.ShowTextInfo(passenger.ToString());
+                }
+            }
+            else
+                _dialogManager.ShowTextInfo($"Flight with name:{name} doesn't exist");
+            _dialogManager.ShowTextInfo("", true);
+        }
+
+        private void PrintPassengersByFlightNumber()
+        {
+            SearchPassengersbyFlightNumber();
         }
 
         private bool AddPassenger(OperationContentEventArgs currentContent)
@@ -401,7 +490,7 @@ namespace AirLine
                 if (existedPassenger != null)
                 {
                     currentContent.ProcessedEntity = existedPassenger;
-                    _dialogManager.ShowTextInfo("Please enter any key to continue");
+                    _dialogManager.ShowTextInfo("",true);
                     return true;
 
                 }
@@ -758,8 +847,8 @@ public FlightTicket Ticket { get; set; }*/
                 if (existedPassenger != null)
                 {
                     flightForEdit.Passengers.Remove(existedPassenger);
-                    _dialogManager.ShowTextInfo($"Customer with this passport{passport} was deleted");
-                    _dialogManager.ShowTextInfo("Please enter any key to continue");
+                    _dialogManager.ShowTextInfo($"Customer with this passport{passport} was deleted",true);
+                   
 
                 }
                 else
@@ -783,9 +872,19 @@ public FlightTicket Ticket { get; set; }*/
                         _dialogManager.ShowTextInfo($"Flight:\n{delflightForDelete}\n was deleted");
                     else
                         _dialogManager.ShowTextInfo($"Flight with number:{number} doesn't exist");
-
+                    _dialogManager.ShowTextInfo("", true);
                 }
             }
+        }
+        private void PrintAllFlights()
+        {
+            // Print full list
+
+            foreach (Flight flight in _flyightsContainer.List)
+            {
+                _dialogManager.ShowTextInfo(flight.ToString());
+            }
+            _dialogManager.ShowTextInfo("",true);
         }
     }
 }

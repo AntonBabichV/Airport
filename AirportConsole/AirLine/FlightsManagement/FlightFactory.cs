@@ -20,18 +20,18 @@ namespace AirLine.FlightsManagement
                 Number = 1,
                 Status = FlightStatus.Arrived,
                 Terminal = 7,
-                Passengers = new List<Passenger>() { new Passenger() {
-                    Passport = "1",
-                    Birthday = DateTime.Now,
-                    FirstName = "Anton",
-                    LastName ="Babich",
-                    Nationality = "Ukranian",
-                    Sex = SexType.male,
-                    Ticket = new FlightTicket() { Class = TypeClass.Business,Price=200}
+                Passengers = new List<Passenger>() {
+                    new Passenger() {
+                        Passport = "123456",
+                        Birthday = DateTime.Now,
+                        FirstName = "Anton",
+                        LastName ="Babich",
+                        Nationality = "Ukranian",
+                        Sex = SexType.male,
+                        Ticket = new FlightTicket() { Class = TypeClass.Business,Price=200}
+                    }
                 }
-                }
-
-                
+              
             });
             startList.Add(new Flight()
             {
@@ -40,7 +40,18 @@ namespace AirLine.FlightsManagement
                 DateTimeOfArrival = DateTime.Now,
                 Number = 2,
                 Status = FlightStatus.Checkin,
-                Terminal = 8
+                Terminal = 8,
+                Passengers = new List<Passenger>() {
+                    new Passenger() {
+                        Passport = "789000",
+                        Birthday = DateTime.Now,
+                        FirstName = "Anton",
+                        LastName ="Babich",
+                        Nationality = "Ukranian",
+                        Sex = SexType.male,
+                        Ticket = new FlightTicket() { Class = TypeClass.Economy,Price=100}
+                    }
+                }
             });
         }
     }

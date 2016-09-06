@@ -37,11 +37,16 @@ namespace AirLine.ConsoleManagement
         }
         public void ShowTextInfo(string info, bool askContinue = false)
         {
-            PrintSepareteLine(_sizeOfDataBox);
-            // Print Body
-            Console.WriteLine(info);
-            // Print bottom
-            PrintSepareteLine(_sizeOfDataBox);
+            if (!string.IsNullOrEmpty(info))
+            {
+                PrintSepareteLine(_sizeOfDataBox);
+                // Print Body
+                Console.WriteLine(info);
+                // Print bottom
+                PrintSepareteLine(_sizeOfDataBox);
+            }
+            else
+                Console.WriteLine();
             if (askContinue)
             {
                 Console.WriteLine("Please press any key to continue...");
@@ -79,7 +84,7 @@ namespace AirLine.ConsoleManagement
             StringBuilder menuBody = new StringBuilder();
             foreach (IMenuItem menu in menuList)
             {
-                menuBody.Append($" {menu.Name} - '{menu.Key}';");
+                menuBody.Append($"{menu.Name} - '{menu.Key}'; ");
             }
             //if (menuBody.Length <= MaxWidht)
             //    _sizeOfDataBox = menuBody.Length;
@@ -115,7 +120,9 @@ namespace AirLine.ConsoleManagement
             } while (selectedMenu == null);
             return selectedMenu;
         }
-        const string _defaultExit = "X";
+        const string _defaultExit = "B";
+        private string _messageAboutWrongSymbol = $"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value";
+
 
         public bool ReceiveText(string name, ref string enteredText, bool allowedToMiss = false)
         {
@@ -148,7 +155,7 @@ namespace AirLine.ConsoleManagement
                     if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
                         customerWontExit = true;
                     else
-                        Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
+                        Console.WriteLine(_messageAboutWrongSymbol);
                 }
 
             } while (!customerWontExit );
@@ -171,7 +178,7 @@ namespace AirLine.ConsoleManagement
                     if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
                         customerWontExit = true;
                     else
-                        Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
+                        Console.WriteLine(_messageAboutWrongSymbol);
                 }
 
             } while (!customerWontExit);
@@ -203,7 +210,7 @@ namespace AirLine.ConsoleManagement
                         return false;
                     }
 #warning the same message everywhere
-                    Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
+                    Console.WriteLine(_messageAboutWrongSymbol);
                 }
             } while (!customerWontExit);
 
@@ -235,7 +242,7 @@ namespace AirLine.ConsoleManagement
                 if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
                     customerWontExit = true;
                 else
-                    Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
+                    Console.WriteLine(_messageAboutWrongSymbol);
 
                 if (allowedToMiss && (enteredStrValue.ToUpper() == _missKey.ToUpper()))
                 {
@@ -261,7 +268,7 @@ namespace AirLine.ConsoleManagement
                     if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
                         customerWontExit = true;
                     else
-                        Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
+                        Console.WriteLine(_messageAboutWrongSymbol);
                 }
 
             } while (!customerWontExit);
@@ -283,7 +290,7 @@ namespace AirLine.ConsoleManagement
                     if (enteredStrValue.ToUpper() == _defaultExit.ToUpper())
                         customerWontExit = true;
                     else
-                        Console.WriteLine($"You have entered wrong value\n please try again or enter {_defaultExit} - if you would like exit from entering the value");
+                        Console.WriteLine(_messageAboutWrongSymbol);
                 }
                
             } while (!customerWontExit);

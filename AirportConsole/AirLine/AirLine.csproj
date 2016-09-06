@@ -56,6 +56,7 @@
     <Compile Include="FlightsManagement\SearchFlightInfo.cs" />
     <Compile Include="Menu\IMenuItem.cs" />
     <Compile Include="Menu\IMenuItemFactory.cs" />
+    <Compile Include="Menu\IMenuManager.cs" />
     <Compile Include="Menu\Menu.cs" />
     <Compile Include="Menu\MenuItemFactory.cs" />
     <Compile Include="Menu\MenuManagment.cs" />

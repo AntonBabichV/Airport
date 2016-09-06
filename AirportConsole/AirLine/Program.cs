@@ -16,6 +16,10 @@ namespace AirLine
             IDialogManager dialogManager = new ConsoleManager();
             IMenuManager menuManager = new ConsoleMenuManager() { DialogManager = dialogManager , MenuItemFcatory  = new MenuItemFactory()};
             IFlyightsContainer flyightsContainer =  new FlyightsContainer();
+
+            IFlightFactory flightFactory = new FlightFactory();
+            flightFactory.InitiolizeDemoStructure(flyightsContainer.List);
+
             AirLineManager airLineManager = new AirLineManager(dialogManager, menuManager, flyightsContainer);
             airLineManager.StartArlineTerminalManagement();
 

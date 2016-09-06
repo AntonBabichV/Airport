@@ -16,6 +16,7 @@ namespace AirportConsole
             IDialogManager dialogManager = new ConsoleManagment();
             IMenuManager menuManager = new ConsoleMenuManager() { DialogManager = dialogManager };
             IFlightFactory flightFactory = new FlightFactory();
+
             FlightManager flightManagement = new FlightManager(menuManager, flightFactory, dialogManager) { };
  
             flightManagement.StartFlightsManagement();
