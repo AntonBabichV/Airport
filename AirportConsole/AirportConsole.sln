@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportConsole", "AirportCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirLine", "AirLine\AirLine.csproj", "{C1DF30D1-6C47-4EB0-9355-D111960EEEFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVPAirLine", "MVPAirLine\MVPAirLine.csproj", "{ED8849E7-44DC-4318-8F4D-D283519C9719}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C1DF30D1-6C47-4EB0-9355-D111960EEEFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1DF30D1-6C47-4EB0-9355-D111960EEEFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1DF30D1-6C47-4EB0-9355-D111960EEEFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED8849E7-44DC-4318-8F4D-D283519C9719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED8849E7-44DC-4318-8F4D-D283519C9719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED8849E7-44DC-4318-8F4D-D283519C9719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED8849E7-44DC-4318-8F4D-D283519C9719}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

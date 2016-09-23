@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AirLine.Menu;
 using System.Globalization;
-using AirLine.Dialogs;
-namespace AirLine.ConsoleManagement
+
+using AirLineMVP.View.Menu;
+using AirLineMVP.View.Dialogs;
+
+namespace AirLineMVP.View.ConsoleManagement
 {
     /// <summary        bool ReceiveStatus(string name, EnumType[] statuses, ref int selectedValue, bool allowedToMiss = false);
 

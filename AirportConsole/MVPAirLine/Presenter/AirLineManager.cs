@@ -3,320 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AirLine.Menu;
-using AirLine.FlightsManagement;
-using AirLine.PassengersManagement;
-using AirLine.ConsoleManagement;
-using AirLine.Dialogs;
-namespace AirLine
+
+using AirLineMVP.Model;
+using AirLineMVP.Model.EventsArgs;
+using AirLineMVP.Model.FlightsManagement;
+using AirLineMVP.Model.PassengersManagement;
+
+
+
+namespace AirLineMVP.Presenter
 {
     class AirLineManager
     {
-        private  IMenuManager _menuManager;
-        private IDialogManager _dialogManager;
-        private IFlyightsContainer _flyightsContainer;
-        public AirLineManager(IDialogManager dialogManager, IMenuManager menuManager, IFlyightsContainer flyightsContainer)
+        /// <summary>
+        /// View
+        /// </summary>
+        private IAirlineView _airlineView;
+        
+        /// <summary>
+        /// Model
+        /// </summary>
+        private IAirlineModel _airlineModel;
+
+        public AirLineManager(IAirlineView airlineView)
         {
-            _menuManager = menuManager;
-            _dialogManager = dialogManager;
-            _flyightsContainer = flyightsContainer;
-         
+            _airlineView = airlineView;
+#warning should be used Factory
+            _airlineModel = new FlyightsContainer();
+            Initiolize();
+
         }
- /*       private IMenuItem MenuSession(IMenuItem menu, OperationContentEventArgs currentContent = null)
-        {
-#pragma warning disable 162
-            IMenuItem subMenu;
-            switch (menu.Type)
-            {
-                case MenuType.MenuLevel:
-                    subMenu = null;
-                    do
-                    {
-
-                        _dialogManager.ClearScreen();
-                        subMenu = _menuManager.Selection(menu.SubMenus);
-                        if (subMenu.Type != MenuType.LevelUp)
-                            MenuSession(subMenu, currentContent);
-                    } while ((subMenu.Type != MenuType.LevelUp) && (subMenu.Type != MenuType.Exit));
-                    return menu;
-                case MenuType.SimpleOperation:
-                    if (menu.Operation != null)
-                        menu.Operation();
-                    else
-                        menu.ComplicatedOperation(currentContent);// current content won't be changed
-                    return menu;
-                    break;
-                case MenuType.Exit:
-                    return menu;
-                    break;
-                case MenuType.LevelUp:
-                    return menu;
-                    break;
-
-                case MenuType.OperationWithSubMenus:
-                    if (currentContent == null)
-                        currentContent = new OperationContentEventArgs();
-
-                    var currentProcessedEntity = currentContent.ProcessedEntity;
-                    // current content will be changed
-                    if (menu.ComplicatedOperation(currentContent))
-                    {
-                        subMenu = null;
-                        do
-                        {
-                            _dialogManager.ClearScreen();
-                            _dialogManager.ShowTextInfo("You are on stage management this entity:" + currentContent.ProcessedEntity.ToString());
-                            subMenu = _menuManager.Selection(menu.SubMenus);
-                            MenuSession(subMenu, currentContent);
-                        } while ((subMenu.Type != MenuType.LevelUp) && (subMenu.Type != MenuType.Exit));
-
-                        if ((currentProcessedEntity != currentContent.ProcessedEntity) && (currentProcessedEntity != null))
-                        {
-                            currentContent.ProcessedEntity = currentProcessedEntity;
-                        }
-                        return menu;
-                    }
-                    else
-                    {
-                        return menu;
-                    }
-
-                    break;
-            }
-            return menu;
-#pragma warning restore 162
-        }*/
+ 
 
         public void StartArlineTerminalManagement()
         {
-            InitiolizeHeaderMenu();
-            _menuManager.StartMenuSession(_dialogManager);
+           
+          
 
         }
 
-        private void InitiolizeHeaderMenu()
+        private void Initiolize()
         {
-
-
-            IMenuItem topMenu = _menuManager.MenuItemFactory.GetMenuItem(
-                name : "top menu",
-                key:"",
-                type: MenuType.MenuLevel, 
-                subMenus: new List<IMenuItem>()
-                {
-                    _menuManager.MenuItemFactory.GetMenuItem(
-                        name : "Manage flights(and passengers)",// edit add delete and than passangers
-                        key:"M",
-                        type: MenuType.MenuLevel,
-                        subMenus: new List<IMenuItem>()
-                        {
-                             _menuManager.MenuItemFactory.GetMenuItem(
-                                 name : "Add flight",// after adding add passengers
-                                 key:"A",
-                                 type: MenuType.OperationWithSubMenus,
-                                 complicatedOperation : AddFlight,
-
-                                 subMenus: new List<IMenuItem>()
-                                 {
-                                     _menuManager.MenuItemFactory.GetMenuItem(
-                                          name : "Add passenger",// after adding add passengers
-                                          key:"A",
-                                          type: MenuType.SimpleOperation,
-                                          complicatedOperation: AddPassenger
-                                          ),
-
-                                   _menuManager.MenuItemFactory.GetMenuItem(
-                                         name : "Back",
-                                         key:"B",
-                                         type: MenuType.LevelUp)
-                                 }),
-                          
-                           _menuManager.MenuItemFactory.GetMenuItem(
-                                 name : "Edit flight",
-                                 key:"E",
-                                 type: MenuType.OperationWithSubMenus,
-                                 complicatedOperation:EditFlightNew,
-                                 subMenus: new List<IMenuItem>()
-                                 {
-
-                                      _menuManager.MenuItemFactory.GetMenuItem(
-                                          name : "Update terminal",// after adding add passengers
-                                          key:"T",
-                                          type: MenuType.SimpleOperation,
-                                          complicatedOperation: EditFlightTerminal
-                                          ),
-                                      _menuManager.MenuItemFactory.GetMenuItem(
-                                          name : "Update city",// after adding add passengers
-                                          key:"C",
-                                          type: MenuType.SimpleOperation,
-                                          complicatedOperation: EditFlightCity
-                                          ),
-                                      _menuManager.MenuItemFactory.GetMenuItem(
-                                          name : "Update airline",// after adding add passengers
-                                          key:"A",
-                                          type: MenuType.SimpleOperation,
-                                          complicatedOperation: EditFlightAirline
-                                          ),
-                                      _menuManager.MenuItemFactory.GetMenuItem(
-                                          name : "Update date time of arrival",// after adding add passengers
-                                          key:"D",
-                                          type: MenuType.SimpleOperation,
-                                          complicatedOperation: EditFlightDateTimeOfArrival
-                                          ),
-                                      _menuManager.MenuItemFactory.GetMenuItem(
-                                          name : "Update status",// after adding add passengers
-                                          key:"S",
-                                          type: MenuType.SimpleOperation,
-                                          complicatedOperation: EditFlightStatus
-                                          ),
-
-
-                                      _menuManager.MenuItemFactory.GetMenuItem(
-                                          name : "Add passenger",// after adding add passengers
-                                          key:"AP",
-                                          type: MenuType.SimpleOperation,
-                                          complicatedOperation: AddPassenger
-                                          ),
-                                     _menuManager.MenuItemFactory.GetMenuItem(
-                                          name : "Edit passenger",// after adding add passengers
-                                          key:"EP",
-                                          type: MenuType.OperationWithSubMenus,
-                                          complicatedOperation: EditPassenger,
-
-                                          subMenus: new List<IMenuItem>()
-                                          {
-                                              _menuManager.MenuItemFactory.GetMenuItem(
-                                                  name : "Update first name",// after adding add passengers
-                                                  key:"FN",
-                                                  type: MenuType.SimpleOperation,
-                                                  complicatedOperation: EditPassengerFirstName
-                                              ),
-                                              _menuManager.MenuItemFactory.GetMenuItem(
-                                                  name : "Update last name",// after adding add passengers
-                                                  key:"LN",
-                                                  type: MenuType.SimpleOperation,
-                                                  complicatedOperation: EditPassengerLastName
-                                              ),
-                                              _menuManager.MenuItemFactory.GetMenuItem(
-                                                  name : "Update passport",// after adding add passengers
-                                                  key:"P",
-                                                  type: MenuType.SimpleOperation,
-                                                  complicatedOperation: EditPassengerPassport
-                                              ),
-                                              _menuManager.MenuItemFactory.GetMenuItem(
-                                                  name : "Update nationality",// after adding add passengers
-                                                  key:"N",
-                                                  type: MenuType.SimpleOperation,
-                                                  complicatedOperation: EditPassengerNationality
-                                              ),
-                                              _menuManager.MenuItemFactory.GetMenuItem(
-                                                  name : "Update birthday",// after adding add passengers
-                                                  key:"BD",
-                                                  type: MenuType.SimpleOperation,
-                                                  complicatedOperation: EditPassengerBirthday
-                                              ),
-                                              _menuManager.MenuItemFactory.GetMenuItem(
-                                                  name : "Update sex",// after adding add passengers
-                                                  key:"S",
-                                                  type: MenuType.SimpleOperation,
-                                                  complicatedOperation: EditPassengerSex
-                                              ),
-                                              _menuManager.MenuItemFactory.GetMenuItem(
-                                                  name : "Update ticket",// after adding add passengers
-                                                  key:"FN",
-                                                  type: MenuType.SimpleOperation,
-                                                  complicatedOperation: EditPassengerTicket
-                                              ),
-                                             _menuManager.MenuItemFactory.GetMenuItem(
-                                                 name : "Back",
-                                                 key:"B",
-                                                 type: MenuType.LevelUp),
-                                          }
-                                          ),
-                                     _menuManager.MenuItemFactory.GetMenuItem(
-                                          name : "Delete passenger",// after adding add passengers
-                                          key:"DP",
-                                          type: MenuType.SimpleOperation,
-                                          complicatedOperation: DeletePassenger)
-                                       ,
-                                     _menuManager.MenuItemFactory.GetMenuItem(
-                                         name : "Back",
-                                         key:"B",
-                                         type: MenuType.LevelUp
-                                         ),
-                                 }),
-                           _menuManager.MenuItemFactory.GetMenuItem(
-                                 name : "Delete ",
-                                 key:"D",
-                                 type: MenuType.SimpleOperation,
-                                 operation:DeleteFlight),  
-                          
-                           _menuManager.MenuItemFactory.GetMenuItem(
-                                 name : "Back",
-                                 key:"B",
-                                 type: MenuType.LevelUp),
-                        }),
-                    _menuManager.MenuItemFactory.GetMenuItem(
-                        name : "Print all flights",
-                        key:"PF",
-                        type: MenuType.SimpleOperation,
-                        operation : PrintAllFlights
-                        ),
-                   _menuManager.MenuItemFactory.GetMenuItem(
-                        name : "Print flight passengers", // enter flight number
-                        key:"PP",
-                        type: MenuType.SimpleOperation,
-                        operation: PrintPassengersByFlightNumber
-                        ),
-                   
-                   _menuManager.MenuItemFactory.GetMenuItem(
-                        name : "Search passengers",// use differnt criteria from all flights
-                        key:"SP",
-                        type: MenuType.MenuLevel,
-                        subMenus: new List<IMenuItem>()
-                        {
-
-                                   _menuManager.MenuItemFactory.GetMenuItem(
-                                         name : "Search by name",
-                                         key:"SN",
-                                         type: MenuType.SimpleOperation,
-                                         operation: SearchPassengersbyNames
-                                         ),
-                                   _menuManager.MenuItemFactory.GetMenuItem(
-                                         name : "Search by flight number",
-                                         key:"SF",
-                                         type: MenuType.SimpleOperation,
-                                         operation: SearchPassengersbyFlightNumber
-                                         ),
-                                   _menuManager.MenuItemFactory.GetMenuItem(
-                                         name : "Search by passport number",
-                                         key:"SP",
-                                         type: MenuType.SimpleOperation,
-                                         operation: SearchPassengersbyPassportNumber
-                                         ),
-                                   _menuManager.MenuItemFactory.GetMenuItem(
-                                         name : "Back",
-                                         key:"B",
-                                         type: MenuType.LevelUp
-                                         ),
-                        }),
-                   _menuManager.MenuItemFactory.GetMenuItem(
-                        name : "Search flights by economy price",// use differnt criteria
-                        key:"SEP",
-                        type: MenuType.SimpleOperation,
-                       operation: SearchFlightsByEconomyPrice
-                       ),
-                    _menuManager.MenuItemFactory.GetMenuItem(
-                        name : "Exit",// use differnt criteria
-                        key:"X",
-                        type: MenuType.Exit),
-                });
-
-            _menuManager.TopMenu = topMenu;
-
-       
+//
         }
-
+/*
         private void SearchPassengersbyFlightNumber()
         {
             int number = 0;
@@ -578,13 +308,7 @@ namespace AirLine
             }
             return false;
         }
-        /*        public string FirstName { get; set; }
-public string Lastname { get; set; }
-public string Passport { get; set; }
-public string Nationality { get; set; }
-public DateTime Birthday { get; set; }
-public SexType Sex { get; set; }
-public FlightTicket Ticket { get; set; }*/
+
         private bool EditPassengerFirstName(OperationContentEventArgs currentContent)
         {
             Passenger passengerForEdit = currentContent.ProcessedEntity as Passenger;
@@ -887,5 +611,6 @@ public FlightTicket Ticket { get; set; }*/
             }
             _dialogManager.ShowTextInfo("",true);
         }
+        */
     }
 }

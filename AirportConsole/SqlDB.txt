@@ -1,0 +1,28 @@
+CREATE TABLE dbo.Table_1
+	(
+	Number int NOT NULL,
+	Terminal smallint NOT NULL,
+	City nvarchar(250) NOT NULL,
+	Airline nvarchar(250) NOT NULL,
+	DateTimeOfArrival datetime NOT NULL,
+	Status smallint NOT NULL
+	)  ON [PRIMARY]
+GO
+ALTER TABLE dbo.Table_1 ADD CONSTRAINT
+	PK_Table_1 PRIMARY KEY CLUSTERED 
+	(
+	Number
+	) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+
+CREATE TABLE [dbo].[Passengers](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](100) NOT NULL,
+	[LastName] [nvarchar](100) NOT NULL,
+	[Passport] [nvarchar](10) NOT NULL,
+	[Nationality] [nvarchar](100) NOT NULL,
+	[Birthday] [date] NOT NULL,
+	[Sex] [smallint] NOT NULL
+) ON [PRIMARY]
+
+GO

@@ -11,7 +11,7 @@ namespace AirLine.Menu
     {
         public IDialogManager DialogManager { get; set; }
         public IMenuItem TopMenu { get; set; }
-        public IMenuItemFactory MenuItemFcatory { get; set; }
+        public IMenuItemFactory MenuItemFactory { get; set; }
 
         /// <summary>
         /// Show console menues list and back the selected
@@ -33,7 +33,7 @@ namespace AirLine.Menu
         private IDialogManager _dialogManager;
         private IMenuItem MenuSession(IMenuItem menu, OperationContentEventArgs currentContent = null)
         {
-#pragma warning disable 162
+
             IMenuItem subMenu;
             switch (menu.Type)
             {
@@ -93,9 +93,9 @@ namespace AirLine.Menu
                     break;
             }
             return menu;
-#pragma warning restore 162
-        }
 
+        }
+      
         public void StartMenuSession(IDialogManager dialogManager)
         {
             _dialogManager = dialogManager;

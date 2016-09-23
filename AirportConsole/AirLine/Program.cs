@@ -14,7 +14,7 @@ namespace AirLine
         static void Main(string[] args)
         {
             IDialogManager dialogManager = new ConsoleManager();
-            IMenuManager menuManager = new ConsoleMenuManager() { DialogManager = dialogManager , MenuItemFcatory  = new MenuItemFactory()};
+            IMenuManager menuManager = new ConsoleMenuManager() { DialogManager = dialogManager , MenuItemFactory  = new MenuItemFactory()};
             IFlyightsContainer flyightsContainer =  new FlyightsContainer();
 
             IFlightFactory flightFactory = new FlightFactory();

@@ -22,7 +22,7 @@ namespace AirLine.FlightsManagement
                 Terminal = 7,
                 Passengers = new List<Passenger>() {
                     new Passenger() {
-                        Passport = "123456",
+                        Passport = "1",
                         Birthday = DateTime.Now,
                         FirstName = "Anton",
                         LastName ="Babich",
@@ -43,7 +43,7 @@ namespace AirLine.FlightsManagement
                 Terminal = 8,
                 Passengers = new List<Passenger>() {
                     new Passenger() {
-                        Passport = "789000",
+                        Passport = "123",
                         Birthday = DateTime.Now,
                         FirstName = "Anton",
                         LastName ="Babich",
