@@ -20,26 +20,20 @@ namespace AirLineMVP.Model.EventsArgs
     }
     public class FlightEventArgs : EventArgs
     {
-        Flight _flight;
-
-        public FlightEventArgs()
-        {
-           
-        }
-
-        public Flight Flight { get { return _flight; }set { _flight = value; } } 
+        public Flight Flight { set; get; }
     }
-    public class FlightPassengerEventArgs : EventArgs
+    public class FlightEditEventArgs : EventArgs
     {
-        Flight _flight;
-        Passenger _passenger;
-        public FlightPassengerEventArgs(Flight flight,Passenger passenger)
-        {
-            _flight = flight;
-            _passenger = passenger;
-        }
-
-        public Flight Flight => _flight;
-        public Passenger Passenger => _passenger;
+        public int Number { set; get; }
+        public Flight Flight { set; get; }
+    }
+    public class PassengerEditEventArgs : EventArgs
+    {
+        public string Passport { set; get; }
+        public Passenger Passenger { set; get; }
+    }
+    public class PassengerEventArgs : EventArgs
+    {
+        public Passenger Passenger { set; get; }
     }
 }

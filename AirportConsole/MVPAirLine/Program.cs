@@ -14,7 +14,7 @@ namespace AirLineMVP.Presenter
     {
         static void Main(string[] args)
         {
-            var airlineView = new ConsoleMenuManager(new MenuItemFactory());
+            var airlineView = new ConsoleMenuManager();
             var dialoManager = new ConsoleManager();
             AirLineManager airLineManager = new AirLineManager(airlineView);
             airlineView.StartMenuSession(dialoManager);

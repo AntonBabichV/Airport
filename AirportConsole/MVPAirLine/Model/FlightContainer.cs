@@ -12,7 +12,7 @@ namespace AirLineMVP.Model
     /// </summary>
     public class FlyightsContainer : IAirlineModel { 
 
-        public FlyightsContainer()
+        internal FlyightsContainer()
         {
             _list = new List<Flight>();
         }
@@ -35,7 +35,7 @@ namespace AirLineMVP.Model
             }
         }
 
-        Flight IAirlineModel.Add(Flight flight)
+       public Flight Add(Flight flight)
         {
             _list.Add(flight);
             return flight;
@@ -73,12 +73,12 @@ namespace AirLineMVP.Model
             }
             return resultList;
         }
-        bool IAirlineModel.Delete(Flight flight)
+        public bool Delete(Flight flight)
         {
             return _list.Remove(flight);
         }
 
-        IEnumerable<Flight> IAirlineModel.GetAll()
+       public IEnumerable<Flight> GetAll()
         {
             return _list;
         }

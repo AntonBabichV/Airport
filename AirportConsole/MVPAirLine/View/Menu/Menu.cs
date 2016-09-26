@@ -10,32 +10,54 @@ namespace AirLineMVP.View.Menu
     {
         public string Name { get; set; }
         public string Key { get; set; }
-        private Action _operation;
-        public Action Operation
-        {
-            get
-            {
-                return _operation;
-            }
-            set
-            {
-                if ((value!=null) &&(_complicatedOperation != null))
-                    throw new Exception("Second operation can't be assigned");
-                _operation = value;
-            }
-        }
-        public Func<OperationContentEventArgs, bool> _complicatedOperation;
-        public Func<OperationContentEventArgs, bool> ComplicatedOperation {
-            get {
-                return _complicatedOperation;
-            } set {
-                if ((value != null) && (_operation != null))
-                    throw new Exception("Second operation can't be assigned");
-                _complicatedOperation = value;
-            }
-        }
-        public MenuType Type { get; set; }
+        public MenuType Type { get; private set; }
+        public IEnumerable<IMenuItem> SubMenus { get; private set; }
 
-        public IList<IMenuItem> SubMenus { get; set; }
+        public Action SimpleOperation { get; private set; }
+
+        public  Func<OperationContentEventArgs, bool> StartNewContext { get; private set; }
+        public Action<OperationContentEventArgs> OperationWithContext{ get; private set; }
+        public Action<OperationContentEventArgs> FinishContext { get; private set; }
+        private MenuItem()
+        {
+
+        }
+        /*        Exit,
+        LevelUp,
+        MenuLevel,
+        SimpleOperation,// Like delete
+        OperationWithSubMenus, // Like Add passagers which means management tickets
+        */
+        public class MenuItemBuilder
+        {
+            public MenuItem BuildExit(string name, string key)
+            {
+                return new MenuItem() { Name = name, Key = key, Type = MenuType.Exit };
+            }
+            public MenuItem BuildLevelUp(string name, string key)
+            {
+                return new MenuItem() { Name = name, Key = key, Type = MenuType.LevelUp };
+            }
+            public MenuItem BuildMenuLevel(string name, string key, IEnumerable<IMenuItem> subMenus)
+            {
+                var menus= new List<IMenuItem>();
+                menus.AddRange(subMenus);
+                return new MenuItem() { Name = name, Key = key, Type = MenuType.MenuLevel, SubMenus = menus };
+            }
+            public MenuItem BuildSimple(string name, string key, Action simpleOperation)
+            {
+                return new MenuItem() { Name = name, Key = key, Type = MenuType.SimpleOperation, SimpleOperation = simpleOperation };
+            }
+            public MenuItem BuildSimpleWithContext(string name, string key, Action<OperationContentEventArgs> operationWithContext)
+            {
+                return new MenuItem() { Name = name, Key = key, Type = MenuType.SimpleOperation, OperationWithContext = operationWithContext };
+            }
+            public MenuItem BuildContextWithSubMenus(string name, string key, IEnumerable<IMenuItem> subMenus, Func<OperationContentEventArgs, bool> startNewContext,  Action<OperationContentEventArgs> finishContext)
+            {
+                var menus = new List<IMenuItem>();
+                menus.AddRange(subMenus);
+                return new MenuItem() { Name = name, Key = key, Type = MenuType.OperationWithSubMenus, SubMenus = menus , StartNewContext  = startNewContext, FinishContext = finishContext };
+            }
+        }
     }
 }

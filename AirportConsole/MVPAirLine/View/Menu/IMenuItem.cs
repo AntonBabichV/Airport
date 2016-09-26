@@ -10,10 +10,14 @@ namespace AirLineMVP.View.Menu
     {
         string Name { get; set; }
         string Key { get; set; }
-        Action Operation { get; set; }
-        Func<OperationContentEventArgs, bool> ComplicatedOperation { get; set; }
-        MenuType Type { get; set; }
-        IList<IMenuItem> SubMenus { get; set; }
+        Action SimpleOperation { get;  }
+
+        Func<OperationContentEventArgs, bool> StartNewContext { get;}
+        Action<OperationContentEventArgs> OperationWithContext{ get;  }
+        Action<OperationContentEventArgs> FinishContext { get;  }
+
+        MenuType Type { get;  }
+        IEnumerable<IMenuItem> SubMenus { get;  }
 
     }
 }

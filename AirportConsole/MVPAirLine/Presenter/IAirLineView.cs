@@ -12,6 +12,17 @@ namespace AirLineMVP.Presenter
         // As example event EventHandler<EventArgs> PopulateFlightsEventRaised;
         event EventHandler<FlightEventArgs> AddFligtEventRaised;
         event EventHandler<FlightEventArgs> DeleteFligtEventRaised;
-        event EventHandler<FlightEventArgs> EditFligtEventRaised;
+
+        event EventHandler<FlightEditEventArgs> StartEditFligtEventRaised;
+        event EventHandler<FlightEventArgs> FinishEditFligtEventRaised;
+
+        event EventHandler<PassengerEventArgs> AddPassengerEventRaised;
+        event EventHandler<PassengerEventArgs> DeletePassengerEventRaised;
+
+        event EventHandler<PassengerEditEventArgs> StartEditPassengerEventRaised;
+        event EventHandler<PassengerEventArgs> FinishEditPassengerEventRaised;
+
+         Func<int, bool> FlightExists { get; set; }
+         Func<string, bool> PassengerExists { get; set; }
     }
 }

@@ -7,7 +7,7 @@
     <ProjectGuid>{ED8849E7-44DC-4318-8F4D-D283519C9719}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVPAirLine</RootNamespace>
+    <RootNamespace>AirLineMVP</RootNamespace>
     <AssemblyName>MVPAirLine</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Exceptions\FlyghtAlreadyExist.cs" />
     <Compile Include="Model\FlightContainer.cs" />
+    <Compile Include="Model\FlightFactory.cs" />
     <Compile Include="View\ConsoleManagement\ConsoleManagment.cs" />
     <Compile Include="Model\EventsArgs\FlightArgs.cs" />
     <Compile Include="Model\FlightsManagement\Flight.cs" />
@@ -58,10 +60,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\Dialogs\IDialogManager.cs" />
     <Compile Include="View\Menu\IMenuItem.cs" />
-    <Compile Include="View\Menu\IMenuItemFactory.cs" />
     <Compile Include="View\Menu\IMenuManager.cs" />
     <Compile Include="View\Menu\Menu.cs" />
-    <Compile Include="View\Menu\MenuItemFactory.cs" />
     <Compile Include="View\Menu\MenuManagment.cs" />
     <Compile Include="View\Menu\MenuOperations.cs" />
     <Compile Include="View\Menu\MenuType.cs" />
